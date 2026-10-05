@@ -1,6 +1,6 @@
 import pool from "../data/bd.js";
 
-export const mostrarLibros = async(req, res) =>{ //mostramos todos los libros
+export const mostrarLibros = async(req, res) => { //mostramos todos los libros
 
     try{
         const [rows] = await pool.query(
@@ -14,7 +14,7 @@ export const mostrarLibros = async(req, res) =>{ //mostramos todos los libros
     }    
 };
 
-export const obtenerLibro = async(req, res) =>{ //mostramos un unico libro elegido
+export const obtenerLibro = async(req, res) => { //mostramos un unico libro elegido
     const id = req.params.id 
 
     try {
@@ -71,7 +71,7 @@ export const modificarLibro = async(req, res) => { // modificamos libros
     const { titulo, autor, ano_publi, genero } = req.body;
     const id = req.params.id;
 
-       if(!titulo || !autor || !ano_publi || !genero){
+       if(!titulo || !autor || !ano_publi || !genero) {
             return res.status(400).json({
                 mensaje: "Faltan datos"
             });
@@ -88,7 +88,7 @@ export const modificarLibro = async(req, res) => { // modificamos libros
             return res.status(404).json({
             mensaje: "No se encontró el libro"
          });
-}
+        }
         res.status(200).json({
             mensaje: "Libro modificado"
         });
@@ -99,4 +99,32 @@ export const modificarLibro = async(req, res) => { // modificamos libros
             mensaje: "Error al modificar el libro"
         });
     }
+};
+
+export const borrarLibro = async(req, res) => { //borramos un libro
+    const id = req.params.id 
+
+    try {
+        const [result] = await pool.execute(
+            `DELETE FROM libros WHERE id=?`,
+            [id]
+        );
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({
+            mensaje: "No se encontró el libro"
+            });
+        }
+
+        res.status(200).json({
+            mensaje: "Se ha eliminado el libro"
+        });
+
+    }catch (error){
+        console.log(error);
+        res.status(500).json({
+            mensaje: "Error al borrar el libro"
+        });
+    }
+
 };
