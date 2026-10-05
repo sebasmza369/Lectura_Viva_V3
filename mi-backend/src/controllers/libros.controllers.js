@@ -49,7 +49,7 @@ export const crearLibro = async(req, res) => { // Creamos libros
         }
 
     try{
-        const [result] = await pool.execute(
+        const [result] = await pool.execute( 
             `INSERT INTO libros (titulo, autor, ano_publi, genero)
              VALUES (?, ?, ?, ?)`, 
             [ titulo, autor, ano_publi, genero ]
@@ -63,6 +63,40 @@ export const crearLibro = async(req, res) => { // Creamos libros
         console.log(error);
         res.status(500).json({
             mensaje: "Error al crear el libro"
+        });
+    }
+};
+
+export const modificarLibro = async(req, res) => { // modificamos libros
+    const { titulo, autor, ano_publi, genero } = req.body;
+    const id = req.params.id;
+
+       if(!titulo || !autor || !ano_publi || !genero){
+            return res.status(400).json({
+                mensaje: "Faltan datos"
+            });
+        }
+
+    try{
+        const [result] = await pool.execute( 
+            `UPDATE libros SET titulo=?, autor=?, ano_publi=?, genero=? 
+            WHERE id=?`, 
+            [ titulo, autor, ano_publi, genero, id ]
+        );
+        
+        if (result.affectedRows === 0) {
+            return res.status(404).json({
+            mensaje: "No se encontró el libro"
+         });
+}
+        res.status(200).json({
+            mensaje: "Libro modificado"
+        });
+
+    }catch(error){
+        console.log(error);
+        res.status(500).json({
+            mensaje: "Error al modificar el libro"
         });
     }
 };
