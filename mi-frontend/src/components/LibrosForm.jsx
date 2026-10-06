@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const API_URL = import.meta.env.PUBLIC_API_URL;
 
@@ -9,8 +9,22 @@ const libroVacio = {
     genero: ""
 };
 
-export default function LibrosForm( { onGuardado }) {
+export default function LibrosForm( { libroEnEdicion, onGuardado, onCancelar }) {
     const [formulario, setFormulario] = useState(libroVacio);
+    const editando = libroEnEdicion !== null;
+
+    useEffect(() => {
+        if (libroEnEdicion) {
+            setFormulario({
+                titulo: libroEnEdicion.titulo,
+                autor: libroEnEdicion.autor,
+                ano_publi: String(libroEnEdicion.ano_publi),
+                genero: libroEnEdicion.genero
+            });
+        }else {
+            setFormulario(libroVacio)
+        }
+    }, [libroEnEdicion]);
 
     function cambiarCampo(event) {
         const { name, value } = event.target;
@@ -31,9 +45,15 @@ export default function LibrosForm( { onGuardado }) {
           genero: formulario.genero  
         };
 
-        const respuesta = await fetch(`${API_URL}/api/v3/libros`,
+        const url = editando
+            ? `${API_URL}/api/v3/libros/${libroEnEdicion.id}`
+            : `${API_URL}/api/v3/libros`;
+
+        const metodo = editando ? "PUT" : "POST";
+
+        const respuesta = await fetch(url,
             {
-                method: "POST",
+                method: metodo,
                 headers: {
                     "Content-Type": "application/json"
                 },
@@ -46,8 +66,10 @@ export default function LibrosForm( { onGuardado }) {
         }
 
         setFormulario(libroVacio);
+        onCancelar();
         await onGuardado();
-    }
+
+    }   
 
     return (
         <form onSubmit={manejarEnvio}>
@@ -89,7 +111,7 @@ export default function LibrosForm( { onGuardado }) {
             </label>
 
             <button type="submit">
-                Crear libro
+                {editando ? "Guardar cambios" : "Crear libro"}
             </button>
         </form>
     );

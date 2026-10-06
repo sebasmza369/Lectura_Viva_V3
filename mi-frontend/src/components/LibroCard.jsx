@@ -1,5 +1,5 @@
 
-export default function LibroCard({ libro, onEliminar }) {
+export default function LibroCard({ libro, onEditar, onEliminar }) {
     return (
         <article>
             <h2>{libro.titulo}</h2>
@@ -8,6 +8,9 @@ export default function LibroCard({ libro, onEliminar }) {
             <p>Género: {libro.genero}</p>
             <button onClick={() => onEliminar(libro.id)}>
                 Eliminar
+            </button>
+            <button onClick={() => onEditar(libro)}>
+                Editar
             </button>
         </article>
     );

@@ -8,7 +8,8 @@ export default function Libros() {
 
     const [libros, setLibros] = useState([]);
     const [cargando, setCargando] = useState(true);
-    const [error, setError] = useState("");    
+    const [error, setError] = useState(""); 
+    const [libroEnEdicion, setLibroEnEdicion] = useState(null);   
 
     async function cargarLibros() {  //funcion para cargar los libros
 
@@ -67,13 +68,18 @@ export default function Libros() {
     return(
         <section>
 
-            <LibrosForm onGuardado={cargarLibros} />
+            <LibrosForm 
+                libroEnEdicion={libroEnEdicion}
+                onGuardado={cargarLibros} 
+                onCancelar={() => setLibroEnEdicion(null)}
+            />
 
             {libros.map((libro) =>(
                 <LibroCard
                     key={libro.id}
                     libro={libro}
-                    onEliminar={manejarEliminar}
+                    onEditar={setLibroEnEdicion}
+                    onEliminar={manejarEliminar}                    
                 />
             ))}
         </section>
