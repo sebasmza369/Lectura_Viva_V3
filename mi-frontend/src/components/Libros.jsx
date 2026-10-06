@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import LibroCard from "./LibroCard.jsx";
 
 const API_URL = import.meta.env.PUBLIC_API_URL;
 
@@ -8,7 +9,7 @@ export default function Libros() {
     const [cargando, setCargando] = useState([true]);
     const [error, setError] = useState("");    
 
-    async function cargarLibros() {
+    async function cargarLibros() {  //funcion para cargar los libros
 
         try{
             const respuesta = await fetch(`${API_URL}/api/v3/libros`);
@@ -29,6 +30,25 @@ export default function Libros() {
         
     }
 
+    async function manejarEliminar(id) {
+        try {
+            const respuesta = await fetch(`${API_URL}/api/v3/libros/${id}`,
+                {
+                    method: "DELETE"
+                }
+            );
+
+            if(!respuesta.ok) {
+                throw new Error("No se pudo eliminar el libro");
+            }
+
+            await cargarLibros();
+
+        }catch(error) {
+            setError(error.message);
+        }
+    } 
+
     useEffect(() => {
         cargarLibros(); 
     }, []);
@@ -46,12 +66,11 @@ export default function Libros() {
     return(
         <section>
             {libros.map((libro) =>(
-                <article key={libro.id}> 
-                    <h2>{libro.titulo}</h2>
-                    <strong>{libro.autor}</strong>
-                    <p>Año: {libro.ano_publi}</p>
-                    <p>Género: {libro.genero}</p>
-                </article>
+                <LibroCard
+                    key={libro.id}
+                    libro={libro}
+                    onEliminar={manejarEliminar}
+                />
             ))}
         </section>
     );
