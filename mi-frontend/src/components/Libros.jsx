@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import LibroCard from "./LibroCard.jsx";
+import LibrosForm from "./LibrosForm.jsx";
 
 const API_URL = import.meta.env.PUBLIC_API_URL;
 
 export default function Libros() {
 
     const [libros, setLibros] = useState([]);
-    const [cargando, setCargando] = useState([true]);
+    const [cargando, setCargando] = useState(true);
     const [error, setError] = useState("");    
 
     async function cargarLibros() {  //funcion para cargar los libros
@@ -65,6 +66,9 @@ export default function Libros() {
     
     return(
         <section>
+
+            <LibrosForm onGuardado={cargarLibros} />
+
             {libros.map((libro) =>(
                 <LibroCard
                     key={libro.id}
