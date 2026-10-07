@@ -1,0 +1,21 @@
+---
+import Libros from "../components/Libros.jsx";
+import "../styles/global.css";
+---
+
+<html lang="es">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width" />
+        <title>Catálogo | Lectura Viva</title>
+    </head>
+
+    <body>
+        <main>
+            <h1>Catálogo de libros</h1>
+            <p>Explora los libros disponibles en Lectura Viva.</p>
+
+            <Libros client:load />
+        </main>
+    </body>
+</html>

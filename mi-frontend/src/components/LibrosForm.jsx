@@ -11,6 +11,7 @@ const libroVacio = {
 
 export default function LibrosForm( { libroEnEdicion, onGuardado, onCancelar }) {
     const [formulario, setFormulario] = useState(libroVacio);
+    const [error, setError] = useState("");
     const editando = libroEnEdicion !== null;
 
     useEffect(() => {
@@ -37,7 +38,8 @@ export default function LibrosForm( { libroEnEdicion, onGuardado, onCancelar }) 
 
     async function manejarEnvio(event) {
         event.preventDefault();
-        
+        setError("");
+
         const datosLibro = {
           titulo: formulario.titulo,
           autor: formulario.autor,
@@ -51,6 +53,8 @@ export default function LibrosForm( { libroEnEdicion, onGuardado, onCancelar }) 
 
         const metodo = editando ? "PUT" : "POST";
 
+        try{
+
         const respuesta = await fetch(url,
             {
                 method: metodo,
@@ -62,14 +66,21 @@ export default function LibrosForm( { libroEnEdicion, onGuardado, onCancelar }) 
         );
         
         if (!respuesta.ok) {
-            throw new Error("No se pudo crear el libro");
+            throw new Error(
+                editando
+                ? "No se pudo modificar el libro"
+                : "No se pudo crear el libro"
+            );
         }
 
         setFormulario(libroVacio);
         onCancelar();
         await onGuardado();
 
-    }   
+        } catch (error) {
+            setError(error.message); 
+        }    
+    }
 
     return (
         <form onSubmit={manejarEnvio}>
@@ -79,6 +90,7 @@ export default function LibrosForm( { libroEnEdicion, onGuardado, onCancelar }) 
                     name="titulo"
                     value={formulario.titulo}
                     onChange={cambiarCampo}
+                    required
                 />
             </label>
 
@@ -88,6 +100,7 @@ export default function LibrosForm( { libroEnEdicion, onGuardado, onCancelar }) 
                     name="autor"
                     value={formulario.autor}
                     onChange={cambiarCampo}
+                    required
                 />
             </label>
 
@@ -98,6 +111,7 @@ export default function LibrosForm( { libroEnEdicion, onGuardado, onCancelar }) 
                     type="number"
                     value={formulario.ano_publi}
                     onChange={cambiarCampo}
+                    required
                 />
             </label>
 
@@ -107,12 +121,22 @@ export default function LibrosForm( { libroEnEdicion, onGuardado, onCancelar }) 
                     name="genero"
                     value={formulario.genero}
                     onChange={cambiarCampo}
+                    required
                 />
             </label>
 
             <button type="submit">
                 {editando ? "Guardar cambios" : "Crear libro"}
             </button>
+
+            {editando && (
+                <button type="button" onClick={onCancelar}>
+                    Cancelar
+                </button>
+            )}
+
+            {error && <p>{error}</p>}
+
         </form>
     );
 }

@@ -12,6 +12,7 @@ export default function Libros() {
     const [libroEnEdicion, setLibroEnEdicion] = useState(null);   
 
     async function cargarLibros() {  //funcion para cargar los libros
+        setError("");
 
         try{
             const respuesta = await fetch(`${API_URL}/api/v3/libros`);
@@ -33,15 +34,20 @@ export default function Libros() {
     }
 
     async function manejarEliminar(id) {
+
         try {
             const respuesta = await fetch(`${API_URL}/api/v3/libros/${id}`,
                 {
                     method: "DELETE"
                 }
-            );
+            )
 
             if(!respuesta.ok) {
                 throw new Error("No se pudo eliminar el libro");
+            }
+
+            if(libroEnEdicion?.id === id) {
+                setLibroEnEdicion(null)
             }
 
             await cargarLibros();
@@ -57,13 +63,7 @@ export default function Libros() {
 
     if (cargando) {
         return <p>Cargando libros...</p>;
-    }
-    if (error) {
-        return <p>{error}</p>;
-    }
-    if (libros.length === 0) {
-        return <p>No hay libros disponibles.</p>;
-    }
+    }  
     
     return(
         <section>
@@ -74,14 +74,21 @@ export default function Libros() {
                 onCancelar={() => setLibroEnEdicion(null)}
             />
 
-            {libros.map((libro) =>(
+             {error && <p>{error}</p>}
+
+            {!error && libros.length === 0 ? (
+                <p>No hay libros disponibles.</p>
+             ) : (
+
+            libros.map((libro) =>(
                 <LibroCard
                     key={libro.id}
                     libro={libro}
                     onEditar={setLibroEnEdicion}
                     onEliminar={manejarEliminar}                    
                 />
-            ))}
+                ))
+             )}
         </section>
     );
 }
