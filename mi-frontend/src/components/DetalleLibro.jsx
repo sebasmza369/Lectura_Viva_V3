@@ -5,15 +5,17 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
 export default function DetalleLibro() {
 
     const [id, setId] = useState(null);
-    const [ libro, setLibro] = useState(null);
-    const [error, setError] = useState("");
+    const [ libro, setLibro ] = useState(null);
+    const [ error, setError ] = useState("");
+    const [ recomendaciones, setRecomendaciones ] = useState([]);
 
     useEffect(() => {
+
         const parametros = new URLSearchParams(window.location.search);
         const idUrl = parametros.get("id");
 
         if(!idUrl) {
-            setError("No se indicó ningún libro");
+            setError("No se indicó ningún libro.");
             return;
         }
 
@@ -30,7 +32,7 @@ export default function DetalleLibro() {
                 const respuesta = await fetch(`${API_URL}/api/v3/libros/${id}`);
                 
                 if (!respuesta.ok) {
-                    throw new Error("No se pudo cargar el libro");
+                    throw new Error("No se pudo cargar el libro.");
                 }
 
                 const datos = await respuesta.json();
@@ -45,6 +47,33 @@ export default function DetalleLibro() {
         cargarLibro();
 
     }, [id]);
+
+    useEffect(() => {
+        if(!libro) return;
+
+        async function cargarRecomendaciones() {
+            try{
+                 const respuesta = await fetch(`${API_URL}/api/v3/libros`);
+
+                if (!respuesta.ok) {
+                return;
+                }
+
+                const datos = await respuesta.json();
+
+                const librosRelacionados = datos.filter((otroLibro) =>
+                    otroLibro.genero === libro.genero && otroLibro.id !== libro.id
+                );
+
+                setRecomendaciones(librosRelacionados.slice(0, 3)); // nos quedamos con max. 3
+
+            }catch(error){
+                setRecomendaciones([]);
+            }
+        }
+
+        cargarRecomendaciones();
+    }, [libro]);
    
     if (error) {
         return <p>{error}</p>;
@@ -60,6 +89,22 @@ export default function DetalleLibro() {
             <p><strong>Autor:</strong> {libro.autor}</p>
             <p><strong>Año:</strong> {libro.ano_publi}</p>
             <p><strong>Género:</strong> {libro.genero}</p>
+
+            <h2>Tambien te puede interesar:</h2>
+            {recomendaciones.length === 0 ? (
+                <p>No hay otras recomendaciones para este genero.</p>  
+            ):(
+                recomendaciones.map((recomendacion) => (
+                    <article key={recomendacion.id}>
+                        <h3>{recomendacion.titulo}</h3>
+                        <p>{recomendacion.autor}</p>
+                        <a href={`/detalle?id=${recomendacion.id}`}>
+                            Ver detalle
+                        </a>
+                    </article>
+                ))
+            )  
+            }
         </section>
     );
 }

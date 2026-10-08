@@ -1,5 +1,33 @@
 ---
 import Nav from "../components/Nav.astro";
+import ContactoForm from "../components/ContactoForm.jsx";
+import "../styles/global.css";
 ---
 
-<Nav />
+<html lang="es">
+	<head>
+		<meta charset="utf-8" />		
+		<meta name="viewport" content="width=device-width" />		
+		<title>Lectura Viva | Contacto </title>
+	</head>
+	<body>
+
+		<Nav />
+		
+		<main>
+ 			<section>
+
+                <p>Contacta con nosotros</p>
+
+                <p>
+                    Si tienes alguna duda o sugerencia no dudes en 
+                    ponerte en contacto.
+                </p>
+
+               <ContactoForm client:load/>
+
+            </section>
+		</main>
+		
+	</body>
+</html>
