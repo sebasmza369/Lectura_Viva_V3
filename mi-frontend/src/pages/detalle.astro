@@ -1,0 +1,24 @@
+---
+import DetalleLibro from "../components/DetalleLibro.jsx";
+import Nav from "../components/Nav.astro";
+import "../styles/global.css";
+---
+
+<html lang="es">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width" />
+        <title>Detalle del libro | Lectura Viva</title>
+    </head>
+
+    <body>
+        <Nav />
+
+        <main>
+            <a href="/catalogo">← Volver al catálogo</a>
+
+            <DetalleLibro client:load />
+            
+        </main>
+    </body>
+</html>
