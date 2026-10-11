@@ -1,5 +1,64 @@
 ---
 import Nav from "../components/Nav.astro";
+import "../styles/global.css";
 ---
 
-<Nav />
+<html lang="es">
+	<head>
+		<meta charset="utf-8" />		
+		<meta name="viewport" content="width=device-width" />		
+		<title>Lectura Viva | Acerca </title>
+	</head>
+	<body>
+
+		<Nav />
+		
+		<main>
+ 			<section class="acerca">
+				<header class="acerca-intro">
+					<p class="acerca-etiqueta">SOBRE EL PROYECTO</p>
+
+					<h1>Acerca de Lectura Viva</h1>
+
+					<p>
+						Lectura Viva es un espacio pensado para descubrir libros,
+						explorar diferentes géneros y encontrar nuevas lecturas.
+					</p>
+				</header>
+
+				<div class="acerca-grid">
+
+					<article class="acerca-card">
+						<h2>¿Qué es Lectura Viva?</h2>
+
+						<p>
+							Es un catálogo de libros en el que puedes consultar
+							diferentes títulos y acceder a la información de cada obra.
+						</p>
+					</article>
+
+					<article class="acerca-card">
+						<h2>Descubre nuevas lecturas</h2>
+
+						<p>
+							Cada libro cuenta con una página de detalle y recomendaciones
+							de otras obras del mismo género para ayudarte a seguir explorando.
+						</p>
+					</article>
+
+					<article class="acerca-card">
+						<h2>Nuestro objetivo</h2>
+
+						<p>
+							Queremos ofrecer una forma sencilla y agradable de consultar
+							libros y descubrir historias que puedan convertirse en tu
+							próxima lectura.
+						</p>
+					</article>
+
+				</div>
+			</section>
+		</main>
+		
+	</body>
+</html>

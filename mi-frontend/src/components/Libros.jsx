@@ -9,7 +9,8 @@ export default function Libros() {
     const [libros, setLibros] = useState([]);
     const [cargando, setCargando] = useState(true);
     const [error, setError] = useState(""); 
-    const [libroEnEdicion, setLibroEnEdicion] = useState(null);   
+    const [libroEnEdicion, setLibroEnEdicion] = useState(null);
+    const [mostrarFormulario, setMostrarFormulario] = useState(false);  
 
     async function cargarLibros() {  //funcion para cargar los libros
         setError("");
@@ -64,30 +65,48 @@ export default function Libros() {
     if (cargando) {
         return <p>Cargando libros...</p>;
     }  
+
+    function manejarEditar(libro) {
+        setLibroEnEdicion(libro);
+        setMostrarFormulario(true);
+    }
+
+    function manejarCancelar() {
+        setLibroEnEdicion(null);
+        setMostrarFormulario(false);
+    }
     
     return(
+
         <section>
 
-            <LibrosForm 
-                libroEnEdicion={libroEnEdicion}
-                onGuardado={cargarLibros} 
-                onCancelar={() => setLibroEnEdicion(null)}
-            />
+            <button onClick={() => setMostrarFormulario(!mostrarFormulario)}>
+                {mostrarFormulario ? "Cerrar formulario" : "Añadir libro"}
+            </button>
 
-             {error && <p>{error}</p>}
+            {mostrarFormulario && (
+                <LibrosForm
+                    libroEnEdicion={libroEnEdicion}
+                    onGuardado={cargarLibros}
+                    onCancelar={manejarCancelar}
+                />
+            )}
+
+            {error && <p>{error}</p>}
 
             {!error && libros.length === 0 ? (
                 <p>No hay libros disponibles.</p>
-             ) : (
-
-            libros.map((libro) =>(
-                <LibroCard
-                    key={libro.id}
-                    libro={libro}
-                    onEditar={setLibroEnEdicion}
-                    onEliminar={manejarEliminar}                    
-                />
-                ))
+            ) : (
+                <div className="libros-grid">
+                    {libros.map((libro) =>(
+                        <LibroCard
+                            key={libro.id}
+                            libro={libro}
+                            onEditar={manejarEditar}
+                            onEliminar={manejarEliminar}                    
+                        />
+                        ))}
+                </div>
              )}
         </section>
     );

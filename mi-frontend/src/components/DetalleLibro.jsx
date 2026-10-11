@@ -84,27 +84,42 @@ export default function DetalleLibro() {
     }
 
     return (
-        <section>
-            <h1>{libro.titulo}</h1>
-            <p><strong>Autor:</strong> {libro.autor}</p>
-            <p><strong>Año:</strong> {libro.ano_publi}</p>
-            <p><strong>Género:</strong> {libro.genero}</p>
+        <section className="detalle-libro">
 
-            <h2>Tambien te puede interesar:</h2>
-            {recomendaciones.length === 0 ? (
-                <p>No hay otras recomendaciones para este genero.</p>  
-            ):(
-                recomendaciones.map((recomendacion) => (
-                    <article key={recomendacion.id}>
-                        <h3>{recomendacion.titulo}</h3>
-                        <p>{recomendacion.autor}</p>
-                        <a href={`/detalle?id=${recomendacion.id}`}>
-                            Ver detalle
-                        </a>
-                    </article>
-                ))
-            )  
-            }
+            <article className="detalle-principal">
+                <h1>{libro.titulo}</h1>
+                <p><strong>Autor:</strong> {libro.autor}</p>
+                <p><strong>Año:</strong> {libro.ano_publi}</p>
+                <p><strong>Género:</strong> {libro.genero}</p>
+            </article>
+
+            <section className="recomendaciones">
+                <h2>También te puede interesar:</h2>
+
+                {recomendaciones.length === 0 ? (
+                    <p>No hay otras recomendaciones para este género.</p>
+                ) : (
+                    <div className="recomendaciones-grid">
+                        {recomendaciones.map((recomendacion) => (
+                            <article
+                                className="recomendacion-card"
+                                key={recomendacion.id}
+                            >
+                                <h3>{recomendacion.titulo}</h3>
+                                <p>{recomendacion.autor}</p>
+
+                                <a
+                                    className="enlace-boton"
+                                    href={`/detalle?id=${recomendacion.id}`}
+                                >
+                                    Ver detalle
+                                </a>
+                            </article>
+                        ))}
+                    </div>
+                )}
+            </section>
+
         </section>
     );
 }

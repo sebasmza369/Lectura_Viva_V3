@@ -1,0 +1,363 @@
+:root {
+    --color-fondo: #f7f2e8;
+    --color-superficie: #ffffff;
+
+    --color-texto: #2f2a26;
+    --color-texto-suave: #6b625b;
+
+    --color-principal: #7a3045;
+    --color-principal-oscuro: #572233;
+
+    --color-secundario: #c59b57;
+
+    --fuente-titulos: Georgia, "Times New Roman", serif;
+    --fuente-texto: Arial, Helvetica, sans-serif;
+
+    --color-peligro: #a63d40;
+    --color-peligro-oscuro: #7d2d30;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    font-family: var(--fuente-texto);
+    line-height: 1.6;
+}
+
+main {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 0;
+}
+
+h1, h2, h3 {
+    font-family: var(--fuente-titulos);
+    color: var(--color-principal);
+    line-height: 1.2;
+}
+
+h1 {
+    font-size: 2.5rem;
+}
+
+h2 {
+    font-size: 1.8rem;
+}
+
+h3 {
+    font-size: 1.3rem;
+}
+
+p {
+    color: var(--color-texto-suave);
+}
+
+a {
+    color: var(--color-principal);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--color-principal-oscuro);
+}
+
+button {
+    border: none;
+    background-color: var(--color-principal);
+    color: white;
+    padding: 0.7rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: var(--color-principal-oscuro);
+}
+
+nav {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    padding: 1rem 5%;
+    background-color: var(--color-superficie);
+    border-bottom: 1px solid var(--color-secundario);
+}
+
+nav a {
+    font-weight: bold;
+    padding: 0.5rem 0;
+}
+
+nav a:hover {
+    color: var(--color-secundario);
+}
+
+.libros-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.libro-card {
+    background-color: var(--color-superficie);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--color-secundario);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.libro-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+}
+
+.libro-card h2 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+.libro-card p {
+    margin: 0.4rem 0;
+}
+
+.acciones-card {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.enlace-boton {
+    display: inline-block;
+    background-color: var(--color-principal);
+    color: white;
+    padding: 0.7rem 1rem;
+    border-radius: 6px;
+}
+
+.enlace-boton:hover {
+    background-color: var(--color-principal-oscuro);
+    color: white;
+}
+
+.boton-eliminar {
+    background-color: var(--color-peligro);
+}
+
+.boton-eliminar:hover {
+    background-color: var(--color-peligro-oscuro);
+}
+
+.libros-form {
+    max-width: 700px;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background-color: var(--color-superficie);
+    border: 1px solid var(--color-secundario);
+    border-radius: 8px;
+}
+
+.campo-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+}
+
+.campo-form label {
+    font-weight: bold;
+}
+
+.campo-form input, .campo-form textarea {
+    width: 100%;
+    padding: 0.7rem;
+    border: 1px solid var(--color-texto-suave);
+    border-radius: 6px;
+    font: inherit;
+}
+
+.campo-form input:focus, .campo-form textarea:focus {
+    outline: 2px solid var(--color-secundario);
+    border-color: var(--color-principal);
+}
+
+.acciones-form {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.contacto-form {
+    max-width: 600px;
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: var(--color-superficie);
+    border: 1px solid var(--color-secundario);
+    border-radius: 8px;
+}
+
+.campo-form textarea {
+    min-height: 120px;
+    resize: vertical; /*poder alargarlo*/
+}
+
+.mensaje-exito {
+    margin-top: 1rem;
+    padding: 0.75rem 1rem;
+    background-color: #edf7ed;
+    border: 1px solid #7da87d;
+    border-radius: 6px;
+    color: #2f5f2f;
+}
+
+.detalle-libro {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.detalle-principal {
+    background-color: var(--color-superficie);
+    padding: 2rem;
+    border: 1px solid var(--color-secundario);
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.detalle-principal h1 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+.detalle-principal p {
+    margin: 0.5rem 0;
+}
+
+.recomendaciones {
+    margin-top: 2.5rem;
+}
+
+.recomendaciones-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.recomendacion-card {
+    background-color: var(--color-superficie);
+    padding: 1rem;
+    border: 1px solid var(--color-secundario);
+    border-radius: 8px;
+}
+
+.recomendacion-card h3 {
+    margin-top: 0;
+}
+
+.recomendacion-card p {
+    margin-bottom: 1rem;
+}
+
+.hero {
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.hero-etiqueta {
+    margin-bottom: 0.5rem;
+    color: var(--color-secundario);
+    font-weight: bold;
+    letter-spacing: 0.15rem;
+}
+
+.hero h1 {
+    max-width: 700px;
+    margin: 0;
+    font-size: 3.5rem;
+}
+
+.hero-texto {
+    max-width: 600px;
+    margin: 1.5rem 0;
+    font-size: 1.1rem;
+}
+
+.hero-boton {
+    display: inline-block;
+    padding: 0.8rem 1.4rem;
+    background-color: var(--color-principal);
+    color: white;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.hero-boton:hover {
+    background-color: var(--color-principal-oscuro);
+    color: white;
+}
+
+.acerca {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.acerca-intro {
+    max-width: 700px;
+    margin-bottom: 2.5rem;
+}
+
+.acerca-etiqueta {
+    color: var(--color-secundario);
+    font-weight: bold;
+    letter-spacing: 0.1rem;
+}
+
+.acerca-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.acerca-card {
+    background-color: var(--color-superficie);
+    padding: 1.5rem;
+    border: 1px solid var(--color-secundario);
+    border-radius: 8px;
+}
+
+.acerca-card h2 {
+    margin-top: 0;
+}
+
+
+
+
+/* Diseño Responsive */
+
+@media (max-width: 900px) {
+    .libros-grid,
+    .recomendaciones-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .acerca-grid {
+    grid-template-columns: 1fr;
+}
+}
+
+@media (max-width: 600px) {
+    .libros-grid,
+    .recomendaciones-grid {
+        grid-template-columns: 1fr;
+    }
+}

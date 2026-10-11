@@ -68,8 +68,8 @@ export default function LibrosForm( { libroEnEdicion, onGuardado, onCancelar }) 
         if (!respuesta.ok) {
             throw new Error(
                 editando
-                ? "No se pudo modificar el libro"
-                : "No se pudo crear el libro"
+                ? "No se pudo modificar el libro."
+                : "No se pudo crear el libro."
             );
         }
 
@@ -83,60 +83,71 @@ export default function LibrosForm( { libroEnEdicion, onGuardado, onCancelar }) 
     }
 
     return (
-        <form onSubmit={manejarEnvio}>
-            <label>
-                Título
+        <form className="libros-form" onSubmit={manejarEnvio}>
+            <h2>{editando ? "Editar libro" : "Añadir libro"}</h2>
+
+            <div className="campo-form">
+                <label htmlFor="titulo">Título</label>
                 <input
+                    type="text"
+                    id="titulo"
                     name="titulo"
                     value={formulario.titulo}
                     onChange={cambiarCampo}
                     required
                 />
-            </label>
+            </div>
 
-            <label>
-                Autor
+            <div className="campo-form">
+                <label htmlFor="autor">Autor</label>
                 <input
+                    type="text"
+                    id="autor"
                     name="autor"
                     value={formulario.autor}
                     onChange={cambiarCampo}
                     required
                 />
-            </label>
+            </div>
 
-            <label>
-                Año
+            <div className="campo-form">
+                <label htmlFor="ano_publi">Año de publicación</label>
                 <input
-                    name="ano_publi"
                     type="number"
+                    id="ano_publi"
+                    name="ano_publi"
                     value={formulario.ano_publi}
                     onChange={cambiarCampo}
                     required
                 />
-            </label>
+            </div>
 
-            <label>
-                Género
+            <div className="campo-form">
+                <label htmlFor="genero">Género</label>
                 <input
+                    type="text"
+                    id="genero"
                     name="genero"
                     value={formulario.genero}
                     onChange={cambiarCampo}
                     required
                 />
-            </label>
+            </div>
 
-            <button type="submit">
-                {editando ? "Guardar cambios" : "Crear libro"}
-            </button>
-
-            {editando && (
-                <button type="button" onClick={onCancelar}>
-                    Cancelar
+            <div className="acciones-form">
+                <button type="submit">
+                    {editando ? "Guardar cambios" : "Crear libro"}
                 </button>
-            )}
+
+                {editando && (
+                    <button type="button" onClick={onCancelar}>
+                        Cancelar
+                    </button>
+                )}
+            </div>
 
             {error && <p>{error}</p>}
-
         </form>
+        
     );
 }
