@@ -13,6 +13,8 @@ export default function ContactoForm() {
     function cambiarCampo(event) {
         const { name, value } = event.target;
 
+        setEnviado(false);
+
         setFormulario({
             ...formulario,
             [name]: value
@@ -34,7 +36,7 @@ export default function ContactoForm() {
     return(
         <form className="contacto-form" onSubmit={manejarEnvio}>
 
-            <h1>Contacto</h1>
+            <h2>Contacto</h2>
             
             <div className="campo-form">
                 <label htmlFor="nombre">Nombre</label>

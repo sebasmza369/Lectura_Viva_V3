@@ -75,12 +75,21 @@ export default function Libros() {
         setLibroEnEdicion(null);
         setMostrarFormulario(false);
     }
+
+    function alternarFormulario() {
+        if (mostrarFormulario) {
+            manejarCancelar();
+        } else {
+            setLibroEnEdicion(null);
+            setMostrarFormulario(true);
+        }
+    }
     
     return(
 
         <section>
 
-            <button onClick={() => setMostrarFormulario(!mostrarFormulario)}>
+            <button onClick={alternarFormulario}>
                 {mostrarFormulario ? "Cerrar formulario" : "Añadir libro"}
             </button>
 
