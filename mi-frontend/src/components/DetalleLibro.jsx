@@ -8,6 +8,8 @@ export default function DetalleLibro() {
     const [ libro, setLibro ] = useState(null);
     const [ error, setError ] = useState("");
     const [ recomendaciones, setRecomendaciones ] = useState([]);
+    const [datosAutor, setDatosAutor] = useState(null);
+    const [resenas, setResenas] = useState([]);
 
     useEffect(() => {
 
@@ -45,6 +47,53 @@ export default function DetalleLibro() {
             }
 
         cargarLibro();
+
+    }, [id]);
+
+    useEffect(() => {
+        if (!libro?.autor_id) return;
+
+        async function cargarAutor() {
+            try {
+                const respuesta = await fetch(`${API_URL}/api/v3/autores/${libro.autor_id}`);                  
+                
+                if (!respuesta.ok) {
+                    return;
+                }
+
+                const datos = await respuesta.json();
+
+                setDatosAutor(datos);
+
+            } catch (error) {
+                setDatosAutor(null);
+            }
+        }
+
+        cargarAutor();
+
+    }, [libro]);
+
+    useEffect(() => {
+        if (!id) return;
+
+        async function cargarResenas() {
+            try {
+                const respuesta = await fetch(`${API_URL}/api/v3/resenas/libro/${id}`);                  
+                if (!respuesta.ok) {
+                    return;
+                }
+
+                const datos = await respuesta.json();
+
+                setResenas(datos);
+
+            } catch (error) {
+                setResenas([]);
+            }
+        }
+
+        cargarResenas();
 
     }, [id]);
 
@@ -89,9 +138,32 @@ export default function DetalleLibro() {
             <article className="detalle-principal">
                 <h1>{libro.titulo}</h1>
                 <p><strong>Autor:</strong> {libro.autor}</p>
+                {datosAutor && (
+                    <p><strong>Nacionalidad:</strong> {datosAutor.nacionalidad}</p>                  
+                )}
                 <p><strong>Año:</strong> {libro.ano_publi}</p>
                 <p><strong>Género:</strong> {libro.genero}</p>
             </article>
+
+            <section className="resenas">
+                <h2>Reseñas</h2>
+
+                {resenas.length === 0 ? (
+                    <p>Todavía no hay reseñas para este libro.</p>
+                ) : (
+                    <div className="resenas-lista">
+                        {resenas.map((resena) => (
+                            <article className="resena-card" key={resena.id}>
+                                <p>
+                                    <strong>Puntuación:</strong> {resena.puntuacion}/5
+                                </p>
+
+                                <p>{resena.comentario}</p>
+                            </article>
+                        ))}
+                    </div>
+                )}
+            </section>
 
             <section className="recomendaciones">
                 <h2>También te puede interesar:</h2>

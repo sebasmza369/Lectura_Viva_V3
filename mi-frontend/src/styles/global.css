@@ -231,7 +231,7 @@ nav a:hover {
 
 .detalle-libro {
     max-width: 900px;
-    margin: 0 auto;
+    margin: 2rem auto;
 }
 
 .detalle-principal {
@@ -379,6 +379,26 @@ nav a:hover {
     display: block;
     border-radius: 8px;
     margin-bottom: 2rem;
+}
+
+.resenas {
+    margin-top: 2.5rem;
+}
+
+.resenas-lista {
+    display: grid;
+    gap: 1rem;
+}
+
+.resena-card {
+    background-color: var(--color-superficie);
+    padding: 1rem;
+    border: 1px solid var(--color-secundario);
+    border-radius: 8px;
+}
+
+.resena-card p {
+    margin: 0.5rem 0;
 }
 
 

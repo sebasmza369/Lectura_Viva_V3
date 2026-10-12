@@ -5,6 +5,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
 const libroVacio = {
     titulo: "",
     autor: "",
+    nacionalidad: "",
     ano_publi: "",
     genero: ""
 };
@@ -19,6 +20,7 @@ export default function LibrosForm( { libroEnEdicion, onGuardado, onCancelar }) 
             setFormulario({
                 titulo: libroEnEdicion.titulo,
                 autor: libroEnEdicion.autor,
+                nacionalidad: "",
                 ano_publi: String(libroEnEdicion.ano_publi),
                 genero: libroEnEdicion.genero
             });
@@ -43,6 +45,7 @@ export default function LibrosForm( { libroEnEdicion, onGuardado, onCancelar }) 
         const datosLibro = {
           titulo: formulario.titulo,
           autor: formulario.autor,
+          nacionalidad: formulario.nacionalidad,
           ano_publi: Number(formulario.ano_publi),
           genero: formulario.genero  
         };
@@ -108,6 +111,20 @@ export default function LibrosForm( { libroEnEdicion, onGuardado, onCancelar }) 
                     onChange={cambiarCampo}
                     required
                 />
+            </div>
+
+            <div className="campo-form">
+                <label htmlFor="nacionalidad">Nacionalidad del autor</label>
+                <input
+                    type="text"
+                    id="nacionalidad"
+                    name="nacionalidad"
+                    value={formulario.nacionalidad}
+                    onChange={cambiarCampo}
+                />
+                <small>
+                    Solo es necesaria si el autor todavía no existe.
+                </small>
             </div>
 
             <div className="campo-form">
