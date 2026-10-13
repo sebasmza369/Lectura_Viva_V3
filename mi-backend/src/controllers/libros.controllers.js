@@ -1,22 +1,19 @@
 import pool from "../data/bd.js";
 
-export const mostrarLibros = async(req, res) => { //mostramos todos los libros
+export const mostrarLibros = async(req, res, next) => { //mostramos todos los libros
 
     try{
         const [rows] = await pool.query(
             `SELECT * FROM libros`
             );
-            res.json(rows);
+            res.status(200).json(rows);
 
     }catch (error){
-        console.log(error);
-         res.status(500).json({
-        mensaje: "Error al obtener los libros"
-        });
+        next(error);
     }    
 };
 
-export const obtenerLibro = async(req, res) => { //mostramos un unico libro elegido
+export const obtenerLibro = async(req, res, next) => { //mostramos un unico libro elegido
     const id = req.params.id 
 
     try {
@@ -33,15 +30,12 @@ export const obtenerLibro = async(req, res) => { //mostramos un unico libro eleg
         res.json(rows[0]);
 
     }catch (error){
-        console.log(error);
-        res.status(500).json({
-            mensaje: "Error al obtener el libro"
-        });
+        next(error);
     }
 
 };
 
-export const crearLibro = async (req, res) => { //creamos libro y el autor
+export const crearLibro = async (req, res, next) => { //creamos libro y el autor
     const { titulo, autor, nacionalidad, ano_publi, genero } = req.body;
 
     if (!titulo || !autor || !ano_publi || !genero) {
@@ -94,22 +88,14 @@ export const crearLibro = async (req, res) => { //creamos libro y el autor
         });
 
     } catch (error) {
-        res.status(500).json({
-            error: "Error al crear el libro."
-        });
+        next(error);
     }
 };
 
-export const modificarLibro = async (req, res) => {
+export const modificarLibro = async (req, res, next) => {
     const { id } = req.params;
 
-    const {
-        titulo,
-        autor,
-        nacionalidad,
-        ano_publi,
-        genero
-    } = req.body;
+    const { titulo, autor, nacionalidad, ano_publi, genero } = req.body;                           
 
     if (!titulo || !autor || !ano_publi || !genero) {
         return res.status(400).json({
@@ -118,7 +104,7 @@ export const modificarLibro = async (req, res) => {
     }
 
     try {
-        // 1. Comprobar que el libro existe
+        
         const [libros] = await pool.query(
             "SELECT id FROM libros WHERE id = ?",
             [id]
@@ -129,8 +115,7 @@ export const modificarLibro = async (req, res) => {
                 error: "Libro no encontrado."
             });
         }
-
-        // 2. Buscar el autor
+        
         const [autores] = await pool.query(
             "SELECT id FROM autores WHERE nombre = ?",
             [autor]
@@ -142,7 +127,7 @@ export const modificarLibro = async (req, res) => {
             autorId = autores[0].id;
 
         } else {
-            // 3. Si el autor es nuevo, necesitamos nacionalidad
+            
             if (!nacionalidad) {
                 return res.status(400).json({
                     error: "La nacionalidad es obligatoria para un autor nuevo."
@@ -157,8 +142,7 @@ export const modificarLibro = async (req, res) => {
 
             autorId = resultadoAutor.insertId;
         }
-
-        // 4. Actualizar el libro
+       
         await pool.query(
             `UPDATE libros
              SET titulo = ?,
@@ -169,8 +153,7 @@ export const modificarLibro = async (req, res) => {
              WHERE id = ?`,
             [titulo, autor, autorId, ano_publi, genero, id]
         );
-
-        // 5. Responder con los datos actualizados
+        
         res.status(200).json({
             id: Number(id),
             titulo,
@@ -181,13 +164,11 @@ export const modificarLibro = async (req, res) => {
         });
 
     } catch (error) {
-        res.status(500).json({
-            error: "Error al actualizar el libro."
-        });
+        next(error);
     }
 };
 
-export const borrarLibro = async(req, res) => { //borramos un libro
+export const borrarLibro = async(req, res, next) => { //borramos un libro
     const id = req.params.id 
 
     try {
@@ -206,11 +187,8 @@ export const borrarLibro = async(req, res) => { //borramos un libro
             mensaje: "Se ha eliminado el libro"
         });
 
-    }catch (error){
-        console.log(error);
-        res.status(500).json({
-            mensaje: "Error al borrar el libro"
-        });
+    }catch (error){        
+        next(error);
     }
 
 };

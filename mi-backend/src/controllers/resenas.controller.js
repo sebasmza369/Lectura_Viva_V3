@@ -1,20 +1,18 @@
 import pool from "../data/bd.js";
 
-export const mostrarResenas = async (req, res) => {
+export const mostrarResenas = async (req, res, next) => {
 
     try {
         const [rows] = await pool.query("SELECT * FROM resenas");
 
         res.status(200).json(rows);
 
-    } catch (error) {
-        res.status(500).json({
-            error: "Error al obtener las reseñas"
-        });
+    }catch (error) {
+        next(error);
     }
 };
 
-export const mostrarResenasPorLibro = async (req, res) => {
+export const mostrarResenasPorLibro = async (req, res, next) => {
 
     const { id } = req.params;
 
@@ -27,13 +25,11 @@ export const mostrarResenasPorLibro = async (req, res) => {
         res.status(200).json(rows);
 
     }catch(error) {
-        res.status(500).json({
-            error: "Error al obtener las reseñas del libro."
-        });
+        next(error);
     }
 };
 
-export const crearResena = async (req, res) => {
+export const crearResena = async (req, res, next) => {
     const { id } = req.params;
     const { puntuacion, comentario } = req.body;
 
@@ -45,9 +41,13 @@ export const crearResena = async (req, res) => {
 
     const puntuacionNumero = Number(puntuacion);
 
-    if (puntuacionNumero < 1 || puntuacionNumero > 5) {
+    if (
+        !Number.isInteger(puntuacionNumero) ||
+        puntuacionNumero < 1 ||
+        puntuacionNumero > 5
+    ) {
         return res.status(400).json({
-            error: "La puntuación debe estar entre 1 y 5."
+            error: "La puntuación debe ser un número entero entre 1 y 5."
         });
     }
 
@@ -76,9 +76,7 @@ export const crearResena = async (req, res) => {
             comentario
         });
 
-    } catch (error) {
-        res.status(500).json({
-            error: "Error al crear la reseña."
-        });
+    }catch (error) {
+        next(error);
     }
 };

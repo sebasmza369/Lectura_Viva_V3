@@ -1,19 +1,17 @@
 import pool from "../data/bd.js";
 
-export const mostrarAutores = async (req, res) => {
+export const mostrarAutores = async (req, res, next) => {
     try {
         const [rows] = await pool.query("SELECT * FROM autores");
 
         res.status(200).json(rows);
 
-    } catch (error) {
-        res.status(500).json({
-            error: "Error al obtener los autores"
-        });
+    }catch (error) {
+        next(error);
     }
 };
 
-export const mostrarAutorPorId = async (req, res) => {
+export const mostrarAutorPorId = async (req, res, next) => {
     const { id } = req.params;
 
     try {
@@ -31,13 +29,11 @@ export const mostrarAutorPorId = async (req, res) => {
         res.status(200).json(rows[0]);
 
     } catch (error) {
-        res.status(500).json({
-            error: "Error al obtener el autor"
-        });
+        next(error);
     }
 };
 
-export const crearAutor = async (req, res) => {
+export const crearAutor = async (req, res, next) => {
     const { nombre, nacionalidad } = req.body;
 
     if (!nombre || !nacionalidad) {
@@ -71,8 +67,6 @@ export const crearAutor = async (req, res) => {
         });
 
     } catch (error) {
-        res.status(500).json({
-            error: "Error al crear el autor."
-        });
+        next(error);
     }
 };
