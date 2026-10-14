@@ -16,6 +16,20 @@ Lectura Viva busca reunir esta información en una interfaz clara y accesible, p
 
 El catálogo se alimenta de una API propia conectada a una base de datos MySQL y permite mantener actualizada la información de los libros.
 
+## Integrantes y responsabilidades
+
+Proyecto realizado de forma individual.
+
+Responsabilidades:
+
+- Diseño y planificación de la interfaz.
+- Desarrollo del frontend.
+- Desarrollo de la API.
+- Diseño y gestión de la base de datos MySQL.
+- Integración entre frontend y backend.
+- Pruebas.
+- Documentación y despliegue.
+
 ## Tecnologías utilizadas
 
 ### Frontend
@@ -110,6 +124,7 @@ Crear un archivo `.env` dentro de `mi-backend` con las siguientes variables:
 PORT=3000
 
 DB_HOST=
+DB_PORT=
 DB_USER=
 DB_PASSWORD=
 DB_NAME=
@@ -129,13 +144,18 @@ PUBLIC_API_URL=http://localhost:3000
 
 Los archivos `.env` no deben subirse al repositorio.
 
+### Configuración en producción
+
+- En Render, `FRONTEND_URL` apunta a `https://lectura-vivav3.netlify.app`.
+- En Netlify, `PUBLIC_API_URL` apunta a `https://lectura-viva-api.onrender.com`.
+
 ## Enlaces
 
-- Frontend publicado: pendiente de publicación.
-- API publicada: pendiente de publicación.
-- Repositorio de GitHub: pendiente.
-- Base de datos externa: pendiente de configuración.
-- Mockup: disponible en la carpeta `docs/`.
+- Frontend publicado: https://lectura-vivav3.netlify.app
+- API publicada: https://lectura-viva-api.onrender.com
+- Repositorio de GitHub: https://github.com/sebasmza369/Lectura_Viva_V3
+- Base de datos externa: MySQL alojada en Aiven
+- Mockup: disponible en la carpeta `docs/`
 
 ## Documentación de la API
 
@@ -190,8 +210,8 @@ Ejemplo de respuesta `200`:
     "titulo": "1984",
     "autor": "George Orwell",
     "ano_publi": 1949,
-    "genero": "Distopía",
-    "autor_id": 1
+    "genero": "Distopía clásica",
+    "autor_id": 5
   }
 ]
 ```
@@ -292,7 +312,7 @@ Ejemplo:
 ```json
 [
   {
-    "id": 1,
+    "id": 5,
     "nombre": "George Orwell",
     "nacionalidad": "Británica"
   }
